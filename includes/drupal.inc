@@ -30,10 +30,8 @@ function drush_drupal_version($drupal_root = NULL) {
         require_once $drupal_root .'/core/includes/bootstrap.inc';
         // D8 moved that to /core/lib/Drupal.php. We can not include the file
         // because then the autoloader will not work.
-        $contents = file_get_contents($drupal_root . '/core/lib/Drupal.php');
-        if (preg_match("/const VERSION = '([^']*)';/s", $contents, $matches)) {
-          $version = $matches[1];
-        }
+        $composer_info = json_decode(file_get_contents($drupal_root . '/composer.json'));
+        $version = $composer_info->extra->drupal_version;
       }
     }
   }
